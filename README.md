@@ -93,16 +93,69 @@ flutter_markdown_selectionarea: ^0.6.17+1
 ---
 
 ## 🔗 API Integration
-This chatbot communicates with an AI-based API. Update the `ChatProvider` to send requests:
+This chatbot communicates with Google's Gemini AI using the google_generative_ai package. The request format follows this approach:
 
 ```dart
-final response = await http.post(
-  Uri.parse('https://api.example.com/chat'),
-  headers: {'Authorization': 'Bearer ${dotenv.env['API_KEY']}'},
-  body: jsonEncode({'message': userInput}),
+import 'dart:typed_data';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+
+final model = GenerativeModel(
+  model: 'gemini-1.5-flash',
+  apiKey: dotenv.env['API_KEY']!,
 );
+
+Stream<String> sendMessageStream(
+  String prompt, 
+  List<Content> history, 
+  {Uint8List? imageFile}
+) async* {
+  final List<Part> contentParts = [TextPart(prompt)];
+
+  final chat = model.startChat(history: history);
+
+  if (imageFile != null) {
+    final image = DataPart('image/jpeg', imageFile);
+    contentParts.add(image);
+  }
+
+  final responseStream = chat.sendMessageStream(Content.multi(contentParts));
+
+  await for (final response in responseStream) {
+    if (response.text != null) {
+      yield response.text!;
+    }
+  }
+}
 ```
 Ensure your API key is stored in `.env` and **not hardcoded**.
+
+Here's a separate README section to teach users how to generate a Gemini API key:
+
+---
+
+# 🌟 How to Generate a Gemini API Key
+
+To use the chatbot, you need a **Gemini API key** from Google AI. Follow these steps:
+
+### 1️⃣ Sign in to Google AI Studio
+- Go to [Google AI Studio](https://aistudio.google.com/).
+- Sign in with your **Google account**.
+
+### 2️⃣ Create a New API Key
+- Navigate to the **API Keys** section.
+- Click **"Create API Key"**.
+- Copy the generated **API key**.
+
+### 3️⃣ Add API Key to Your Project
+- Create a `.env` file in your project’s root directory.
+- Paste your API key:
+  ```sh
+  API_KEY=your_generated_api_key
+  ```
+- **Important:** Do not share your API key publicly.
+
+Now your chatbot can access the Gemini API! 🚀
 
 ---
 
