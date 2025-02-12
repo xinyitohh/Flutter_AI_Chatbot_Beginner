@@ -1,6 +1,6 @@
 # Flutter AI Chatbot for Beginner
 
-A conversational AI chatbot built using **Flutter** and **Gemini AI** . 🚀
+A conversational AI chatbot built using **Flutter**, **Gemini AI**, **Provider** for state management, and **Hive** for local database. 🚀
 
 ---
 
@@ -51,24 +51,25 @@ flutter run
 ## 🏗 Project Structure
 ```
 flutter-chatbot/
-│── lib/
-│   ├── main.dart         
-│   ├── api/
-│   │   ├── gemin_api_service.dart 
-│   ├── providers/
-│   │   ├── chat_provider.dart  
-│   ├── model/
-│   │   ├── conversation.dart  
-│   │   ├── conversation.g.dart  
-│   │   ├── message.dart  
-│   │   ├── message.g.dart  
-│   ├── page/
-│   │   ├── chat_page.dart  
-│   ├── widgets/
-│   │   ├── chat_bubble.dart    
-│   │   ├── chat_screen.dart    
-│── .env                     
-│── pubspec.yaml            
+│── lib/                          # Main application directory
+│   ├── main.dart                 # Entry point of the Flutter app
+│   ├── api/                      
+│   │   ├── gemini_api_service.dart  # Handles communication with Gemini AI API
+│   ├── providers/                 
+│   │   ├── chat_provider.dart     # Manages chatbot state and logic using Provider
+│   ├── model/                     
+│   │   ├── conversation.dart      # Defines Conversation model
+│   │   ├── conversation.g.dart    # Auto-generated adapter for Hive database
+│   │   ├── message.dart           # Defines Message model
+│   │   ├── message.g.dart         # Auto-generated adapter for Hive database
+│   ├── page/                      
+│   │   ├── chat_page.dart         # UI for the chatbot conversation screen
+│   ├── widgets/                    
+│   │   ├── chat_bubble.dart       # UI component for chat messages
+│   │   ├── chat_screen.dart       # Main chat UI layout
+│── .env                           # Environment file storing API keys (excluded from Git)
+│── pubspec.yaml                   # Defines dependencies, package metadata, and configurations
+      
 ```
 ---
 
