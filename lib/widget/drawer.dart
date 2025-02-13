@@ -35,7 +35,7 @@ class DrawerItems extends StatelessWidget {
                                 Expanded(
                                   child: Text(conversation.title, overflow: TextOverflow.ellipsis),
                                 ),
-                                IconButton(onPressed: (){}, icon: Icon(Icons.delete))
+                                IconButton(onPressed: () => chatProvider.deleteConversation(conversation.id), icon: Icon(Icons.delete))
                               ],
                             ),
 
